@@ -1,5 +1,3 @@
-import 'package:json_serializable/json_serializable.dart';
-
 class User {
 
   final int id;
@@ -17,8 +15,8 @@ class User {
     return User(
       id: json['id'] as int,
       status: json['status'] as String,
-      firstName: json['firstName'] as String,
-      lastName: json['lastName'] as String,
+      firstName: json['first_name'] as String,
+      lastName: json['last_name'] as String,
       email: json['email'] as String,
       token: json['token'] as String,
       balance: json['balance'] as int,

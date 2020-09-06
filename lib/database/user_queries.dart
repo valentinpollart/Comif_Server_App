@@ -1,20 +1,49 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:Comif_Server_App/cache/cached_data.dart';
+import 'package:Comif_Server_App/database/auth_queries.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../models/user.dart';
 import 'package:http/http.dart' as http;
 
 
-List<User> parseUsers(String responseBody) {
-  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-  return parsed.map<User>((json) => User.fromJson(json)).toList();
+Future<List<User>> parseUsers() async {
+  final response = await http.get(
+      'https://comif.fr/api/users/',
+      headers: {HttpHeaders.authorizationHeader: "Bearer " + CachedData.token}
+  );
+  if (response.statusCode == 200) {
+    final parsed = jsonDecode(response.body).cast<Map<String, dynamic>>();
+    return parsed.map<User>((json) => User.fromJson(json)).toList();
+  } else {
+    throw Exception('Failed to get user list');
+  }
 }
 
-User infoUser(String responseBody) {
-  final parsed = jsonDecode(responseBody).cast<String, dynamic>();
-  return User.fromJson(parsed['user']);
+Future<List<User>> searchUser(String search) async {
+  final users = await parseUsers();
+  users.removeWhere((user) => !user.lastName.toLowerCase().contains(search) && !user.firstName.toLowerCase().contains(search));
+  users.sort((User user1, User user2) => user1.lastName.compareTo(user2.lastName));
+  debugPrint(users[0].lastName);
+  return users;
+}
+
+Future<User> infoUser() async {
+  final response = await http.get(
+    'https://comif.fr/api/users/info',
+    headers: {HttpHeaders.authorizationHeader: "Bearer " + CachedData.token}
+  );
+  if (response.statusCode == 200) {
+    final parsed = jsonDecode(response.body).cast<String, dynamic>();
+    return User.fromJson(parsed['user']);
+  } else {
+    throw Exception('Failed to get user info');
+  }
 }
 
 User getUser(String responseBody) {
   final parsed = jsonDecode(responseBody).cast<String, dynamic>();
   return User.fromJson(parsed);
 }
+
