@@ -21,6 +21,9 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Bienvenue sur l\'appli des serveurs de la Comif !'),
+      ),
       body: Center(
         child: FormBuilder(
           key: _formKey,
@@ -30,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: [
                 Container(
+                  color: Colors.amber,
                   child: FormBuilderTextField(
                     attribute: 'email',
                     initialValue: 'valentin.pollart@etu.emse.fr',
@@ -44,6 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Container(
+                  color: Colors.amber,
                   child: FormBuilderTextField(
                     attribute: 'password',
                     initialValue: '370468Polval',

@@ -21,6 +21,7 @@ class MainDrawer extends StatelessWidget {
               CachedData.logout();
               Navigator.of(context)
                   .pushNamedAndRemoveUntil('/', (route) => false);
+              // Navigator.pop(context);
             },
           ),
           ListTile(
@@ -28,6 +29,7 @@ class MainDrawer extends StatelessWidget {
             onTap: () {
               Navigator.of(context)
                   .pushNamedAndRemoveUntil('/invoice', (route) => false);
+              // Navigator.pop(context);
             },
           ),
         ],

@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:Comif_Server_App/cache/cached_data.dart';
-import 'package:Comif_Server_App/database/auth_queries.dart';
-import 'package:flutter/cupertino.dart';
 
 import '../models/user.dart';
 import 'package:http/http.dart' as http;
@@ -25,7 +23,6 @@ Future<List<User>> searchUser(String search) async {
   final users = await parseUsers();
   users.removeWhere((user) => !user.lastName.toLowerCase().contains(search) && !user.firstName.toLowerCase().contains(search));
   users.sort((User user1, User user2) => user1.lastName.compareTo(user2.lastName));
-  debugPrint(users[0].lastName);
   return users;
 }
 

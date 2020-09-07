@@ -18,4 +18,8 @@ class Product {
       categoryId: json['category_id'] as int,
     );
   }
+
+  String displayPrice() {
+    return (this.salePrice/100).toStringAsFixed(2) + "€";
+  }
 }

@@ -1,10 +1,11 @@
 import 'dart:developer';
 
-import 'package:Comif_Server_App/cache/cached_data.dart';
 import 'package:Comif_Server_App/database/product_queries.dart';
 import 'package:Comif_Server_App/database/user_queries.dart';
+import 'package:Comif_Server_App/models/basket.dart';
 import 'package:Comif_Server_App/models/product.dart';
 import 'package:Comif_Server_App/models/user.dart';
+import 'package:Comif_Server_App/screens/invoice_confirmation.dart';
 import 'package:Comif_Server_App/ui/main_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,14 +13,20 @@ import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter_counter/flutter_counter.dart';
 
 class InvoiceBuilderScreen extends StatefulWidget {
+  final Basket basket;
+
+  InvoiceBuilderScreen({this.basket});
+
   @override
-  _InvoiceBuilderScreenState createState() => _InvoiceBuilderScreenState();
+  _InvoiceBuilderScreenState createState() =>
+      _InvoiceBuilderScreenState(basket: basket);
 }
 
 class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
   bool _clientSelected = false;
-  User client;
-  Map<Product, int> basket = new Map();
+  Basket basket;
+
+  _InvoiceBuilderScreenState({this.basket});
 
   @override
   Widget build(BuildContext context) {
@@ -30,31 +37,27 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
             actions: <Widget>[
               GestureDetector(
                 onTap: () {
-                  client = null;
+                  basket.client = null;
                   setState(() {
                     _clientSelected = !_clientSelected;
                   });
                 },
-                child: Icon(
-                    Icons.arrow_back_ios_outlined
-                ),
+                child: Icon(Icons.arrow_back_ios_outlined),
               )
             ],
           ),
           body: buildProductList(context),
-          drawer: MainDrawer()
-      );
+          drawer: MainDrawer());
     } else {
+      basket = basket ?? new Basket(client: null, products: new Map<Product, int>());
       return Scaffold(
-          appBar: AppBar(
-            title: Text('Qui est servi ?'),
-
-          ),
-          body: buildClientList(context)
+        appBar: AppBar(
+          title: Text('Qui est servi ?'),
+        ),
+        body: buildClientList(context),
+        drawer: MainDrawer(),
       );
     }
-
-
   }
 
   Widget buildClientList(BuildContext context) {
@@ -71,7 +74,7 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
                 isThreeLine: true,
                 subtitle: Text(user.balance.toString()),
                 onTap: () {
-                  client = user;
+                  basket.client = user;
                   setState(() {
                     _clientSelected = !_clientSelected;
                   });
@@ -85,54 +88,61 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
   }
 
   Widget buildProductList(BuildContext context) {
+    basket = ModalRoute.of(context).settings.arguments ?? basket;
     return Scaffold(
       body: SafeArea(
           child: Column(
-            children: [
-              Expanded(
-                  child: SearchBar<Product>(
-                    minimumChars: 1,
-                    onSearch: searchProduct,
-                    onItemFound: (Product product, int index) {
-                      return Container(
-                          color: Colors.lightBlue,
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  ListTile(
-                                    title: Text(product.name),
-                                    isThreeLine: true,
-                                    subtitle: Text(product.salePrice.toString()),
-                                  ),
-                                  Counter(
-                                    initialValue: basket[product] ?? 0,
-                                    minValue: 0,
-                                    step: 1,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        basket[product] = value;
-                                      });
-                                    },
-                                    decimalPlaces: 0,
-                                    maxValue: product.stock,
-                                  )
-                                ],
-                              )
-                            ],
-                          )
-
-                      );
-                    },
-                  ),
-              ),
-              RaisedButton(
-                onPressed: null,
-                child: Text('Aller au récapitulatif'),
-              ),
-            ],
-          )
-      ),
+        children: [
+          Expanded(
+            child: SearchBar<Product>(
+              minimumChars: 1,
+              onSearch: searchProduct,
+              onItemFound: (Product product, int index) {
+                return Container(
+                    color: index % 2 == 0 ? Colors.lightBlue : Colors.red,
+                    child: Row(
+                      children: [
+                        Expanded(
+                            flex: 3,
+                            child: ListTile(
+                              title: Text(product.name),
+                              isThreeLine: false,
+                              subtitle: Text(product.displayPrice()),
+                            )),
+                        Expanded(
+                            flex: 1,
+                            child: Counter(
+                              initialValue: basket.products[product] ?? 0,
+                              minValue: 0,
+                              step: 1,
+                              onChanged: (value) {
+                                setState(() {
+                                  basket.products[product] = value;
+                                });
+                              },
+                              decimalPlaces: 0,
+                              maxValue: 999,
+                            ))
+                      ],
+                    )
+                );
+              },
+            ),
+          ),
+          RaisedButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          InvoiceConfirmationScreen(basket: basket)
+                  )
+              );
+            },
+            child: Text('Aller au récapitulatif'),
+          ),
+        ],
+      )),
     );
   }
 }
