@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:Comif_Server_App/database/product_queries.dart';
 import 'package:Comif_Server_App/database/user_queries.dart';
-import 'package:Comif_Server_App/models/basket.dart';
+import 'package:Comif_Server_App/models/transaction.dart';
 import 'package:Comif_Server_App/models/product.dart';
 import 'package:Comif_Server_App/models/user.dart';
 import 'package:Comif_Server_App/screens/invoice_confirmation.dart';
@@ -14,17 +14,17 @@ import 'package:flutter/material.dart';
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 
 class InvoiceBuilderScreen extends StatefulWidget {
-  final Basket basket;
+  final Transaction transaction;
 
-  InvoiceBuilderScreen({this.basket});
+  InvoiceBuilderScreen({this.transaction});
 
   @override
   _InvoiceBuilderScreenState createState() =>
-      _InvoiceBuilderScreenState(basket: basket);
+      _InvoiceBuilderScreenState(basket: transaction);
 }
 
 class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
-  Basket basket;
+  Transaction basket;
   bool _clientSelected = false;
 
   _InvoiceBuilderScreenState({this.basket});
@@ -38,7 +38,7 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
                 actions: <Widget>[
                   InkWell(
                     onTap: () {
-                      basket.client = null;
+                      basket.userId = null;
                       setState(() {
                         _clientSelected = !_clientSelected;
                       });
@@ -51,7 +51,7 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
               drawer: MainDrawer());
     } else {
       basket =
-          basket ?? new Basket(client: null, products: new Map<int, int>());
+          basket ?? new Transaction(userId: null, products: new List<ProductInBasket>());
       return Scaffold(
             appBar: AppBar(
               title: Text('Qui est servi ?'),
@@ -76,7 +76,7 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
                 isThreeLine: true,
                 subtitle: Text(user.balance.toString()),
                 onTap: () {
-                  basket.client = user;
+                  basket.userId = user.id;
                   setState(() {
                     _clientSelected = !_clientSelected;
                   });
@@ -91,7 +91,6 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
 
   Widget buildProductList(BuildContext context) {
     basket = ModalRoute.of(context).settings.arguments ?? basket;
-    debugPrint(basket.client.toString());
     return Scaffold(
       body: SafeArea(
           child: Column(
@@ -116,12 +115,12 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
                             flex: 1,
                             child: Counter(
                               tag: "product$index",
-                              initialValue: basket.products[product.id] ?? 0,
+                              initialValue: basket.getProductQuantity(product.id) ?? 0,
                               minValue: 0,
                               step: 1,
                               onChanged: (value) {
                                 setState(() {
-                                  basket.products[product.id] = value;
+                                  basket.products. = value;
                                 });
                               },
                               decimalPlaces: 0,

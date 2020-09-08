@@ -1,5 +1,5 @@
 import 'package:Comif_Server_App/database/product_queries.dart';
-import 'package:Comif_Server_App/models/basket.dart';
+import 'package:Comif_Server_App/models/transaction_queries.dart';
 import 'package:Comif_Server_App/models/product.dart';
 import 'package:Comif_Server_App/screens/invoice_builder.dart';
 import 'package:Comif_Server_App/ui/drawers/main_drawer.dart';
@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class InvoiceConfirmationScreen extends StatelessWidget {
-  final Basket basket;
+  final Transaction basket;
 
   InvoiceConfirmationScreen({Key key, this.basket}) : super(key: key);
 
@@ -27,7 +27,7 @@ class InvoiceConfirmationScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              InvoiceBuilderScreen(basket: basket)));
+                              InvoiceBuilderScreen(transaction: basket)));
                 },
                 child: Icon(Icons.arrow_back_ios_outlined),
               )
