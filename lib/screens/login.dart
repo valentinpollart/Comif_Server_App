@@ -31,7 +31,11 @@ class _LoginScreenState extends State<LoginScreen> {
           autovalidate: true,
           child: Center(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                  child: Image.asset('asset/icons/launcher_icon.png'),
+                ),
                 Container(
                   color: Colors.amber,
                   child: FormBuilderTextField(
