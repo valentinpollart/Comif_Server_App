@@ -6,11 +6,12 @@ import 'package:Comif_Server_App/models/basket.dart';
 import 'package:Comif_Server_App/models/product.dart';
 import 'package:Comif_Server_App/models/user.dart';
 import 'package:Comif_Server_App/screens/invoice_confirmation.dart';
-import 'package:Comif_Server_App/ui/main_drawer.dart';
+import 'package:Comif_Server_App/ui/drawers/main_drawer.dart';
+import 'package:Comif_Server_App/ui/texts/prices.dart';
+import 'package:Comif_Server_App/ui/widgets/counter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flappy_search_bar/flappy_search_bar.dart';
-import 'package:flutter_counter/flutter_counter.dart';
 
 class InvoiceBuilderScreen extends StatefulWidget {
   final Basket basket;
@@ -23,40 +24,41 @@ class InvoiceBuilderScreen extends StatefulWidget {
 }
 
 class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
-  bool _clientSelected = false;
   Basket basket;
+  bool _clientSelected = false;
 
   _InvoiceBuilderScreenState({this.basket});
 
   @override
   Widget build(BuildContext context) {
-    if (_clientSelected) {
+    if (_clientSelected || basket != null) {
       return Scaffold(
-          appBar: AppBar(
-            title: Text('Qu\'est-ce-qu\'on sert ?'),
-            actions: <Widget>[
-              GestureDetector(
-                onTap: () {
-                  basket.client = null;
-                  setState(() {
-                    _clientSelected = !_clientSelected;
-                  });
-                },
-                child: Icon(Icons.arrow_back_ios_outlined),
-              )
-            ],
-          ),
-          body: buildProductList(context),
-          drawer: MainDrawer());
+              appBar: AppBar(
+                title: Text('Qu\'est-ce-qu\'on sert ?'),
+                actions: <Widget>[
+                  InkWell(
+                    onTap: () {
+                      basket.client = null;
+                      setState(() {
+                        _clientSelected = !_clientSelected;
+                      });
+                    },
+                    child: Icon(Icons.arrow_back_ios_outlined),
+                  )
+                ],
+              ),
+              body: buildProductList(context),
+              drawer: MainDrawer());
     } else {
-      basket = basket ?? new Basket(client: null, products: new Map<Product, int>());
+      basket =
+          basket ?? new Basket(client: null, products: new Map<int, int>());
       return Scaffold(
-        appBar: AppBar(
-          title: Text('Qui est servi ?'),
-        ),
-        body: buildClientList(context),
-        drawer: MainDrawer(),
-      );
+            appBar: AppBar(
+              title: Text('Qui est servi ?'),
+            ),
+            body: buildClientList(context),
+            drawer: MainDrawer(),
+          );
     }
   }
 
@@ -89,6 +91,7 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
 
   Widget buildProductList(BuildContext context) {
     basket = ModalRoute.of(context).settings.arguments ?? basket;
+    debugPrint(basket.client.toString());
     return Scaffold(
       body: SafeArea(
           child: Column(
@@ -107,25 +110,25 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
                             child: ListTile(
                               title: Text(product.name),
                               isThreeLine: false,
-                              subtitle: Text(product.displayPrice()),
+                              subtitle: Text(displayPrice(product.salePrice)),
                             )),
                         Expanded(
                             flex: 1,
                             child: Counter(
-                              initialValue: basket.products[product] ?? 0,
+                              tag: "product$index",
+                              initialValue: basket.products[product.id] ?? 0,
                               minValue: 0,
                               step: 1,
                               onChanged: (value) {
                                 setState(() {
-                                  basket.products[product] = value;
+                                  basket.products[product.id] = value;
                                 });
                               },
                               decimalPlaces: 0,
                               maxValue: 999,
                             ))
                       ],
-                    )
-                );
+                    ));
               },
             ),
           ),
@@ -135,9 +138,7 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          InvoiceConfirmationScreen(basket: basket)
-                  )
-              );
+                          InvoiceConfirmationScreen(basket: basket)));
             },
             child: Text('Aller au récapitulatif'),
           ),

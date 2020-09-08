@@ -24,3 +24,16 @@ Future<List<Product>> searchProduct(String search) async {
   products.sort((Product product1, Product product2) => product1.slug.compareTo(product2.slug));
   return products;
 }
+
+Future<Product> getProduct(int id) async {
+  final response = await http.get(
+      "https://comif.fr/api/products/$id",
+      headers: {HttpHeaders.authorizationHeader: "Bearer " + CachedData.token}
+  );
+  if (response.statusCode == 200) {
+    final parsed = jsonDecode(response.body).cast<String, dynamic>();
+    return Product.fromJson(parsed);
+  } else {
+    throw Exception("Failed to get product (id: $id)");
+  }
+}
