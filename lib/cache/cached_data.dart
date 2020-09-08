@@ -1,3 +1,4 @@
+import 'package:Comif_Server_App/models/product.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CachedData {

@@ -14,17 +14,7 @@ class InvoiceConfirmationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Product> productList = new List<Product>();
     int total = 0;
-    Future.forEach(basket.products.keys,(id) async {
-      debugPrint(id.toString());
-      var product = await getProduct(id);
-      debugPrint(id.toString());
-      debugPrint(product.toString());
-      total += product.salePrice * basket.products[id];
-      productList.add(product);
-    });
-    debugPrint(productList.toString());
     return Hero(
         tag: this.hashCode,
         child: Scaffold(
@@ -72,31 +62,37 @@ class InvoiceConfirmationScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     itemCount: basket.products.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: Center(
-                                    child: Text(productList[index].name),
-                                )
-                            ),
-                            Expanded(
-                                child: Center(
-                                  child: Text(basket.products[index]
-                                      .toString()),
-                                )
-                            ),
-                            Expanded(
-                                child: Center(
-                                  child: Text(displayPrice(basket.products[index]*productList[index].salePrice)),
-                                )
-                            ),
-                          ],
-                        ),
-                      );
+                      return FutureBuilder<Product>(
+                          future: getProduct(
+                              basket.products.keys.elementAt(index)),
+                          builder: (context, snapshot) {
+                            total += basket.products[index]*snapshot.data.salePrice;
+                            return Container(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Center(
+                                        child: Text(snapshot.data.name),
+                                      )
+                                  ),
+                                  Expanded(
+                                      child: Center(
+                                        child: Text(basket.products.keys.elementAt(index)
+                                            .toString()),
+                                      )
+                                  ),
+                                  Expanded(
+                                      child: Center(
+                                        child: Text(displayPrice(basket.products[index]*snapshot.data.salePrice)),
+                                      )
+                                  ),
+                                ],
+                              ),
+                            );
+                          });
                     },
                     separatorBuilder: (BuildContext context, int index) =>
-                        const Divider(),
+                    const Divider(),
                   ),
                 ),
                 Container(
@@ -114,7 +110,7 @@ class InvoiceConfirmationScreen extends StatelessWidget {
                       ),
                       Expanded(
                           child: Center(
-                              child: Text(displayPrice(total)),
+                            child: Text(displayPrice(total)),
                           )
                       ),
                     ],
