@@ -1,5 +1,5 @@
 import 'package:Comif_Server_App/database/product_queries.dart';
-import 'package:Comif_Server_App/models/transaction_queries.dart';
+import 'package:Comif_Server_App/models/transaction.dart';
 import 'package:Comif_Server_App/models/product.dart';
 import 'package:Comif_Server_App/screens/invoice_builder.dart';
 import 'package:Comif_Server_App/ui/drawers/main_drawer.dart';
@@ -66,7 +66,7 @@ class InvoiceConfirmationScreen extends StatelessWidget {
                           future: getProduct(
                               basket.products.keys.elementAt(index)),
                           builder: (context, snapshot) {
-                            total += basket.products[index]*snapshot.data.salePrice;
+                            total += basket.products[snapshot.data.id].quantity*snapshot.data.salePrice;
                             return Container(
                               child: Row(
                                 children: [
@@ -77,13 +77,13 @@ class InvoiceConfirmationScreen extends StatelessWidget {
                                   ),
                                   Expanded(
                                       child: Center(
-                                        child: Text(basket.products.keys.elementAt(index)
+                                        child: Text(basket.products[snapshot.data.id].quantity
                                             .toString()),
                                       )
                                   ),
                                   Expanded(
                                       child: Center(
-                                        child: Text(displayPrice(basket.products[index]*snapshot.data.salePrice)),
+                                        child: Text(displayPrice(basket.products[snapshot.data.id].quantity*snapshot.data.salePrice)),
                                       )
                                   ),
                                 ],

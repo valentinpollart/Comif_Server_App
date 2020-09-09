@@ -51,7 +51,7 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
               drawer: MainDrawer());
     } else {
       basket =
-          basket ?? new Transaction(userId: null, products: new List<ProductInBasket>());
+          basket ?? new Transaction(userId: null, products: new Map<int, ProductInBasket>());
       return Scaffold(
             appBar: AppBar(
               title: Text('Qui est servi ?'),
@@ -120,7 +120,7 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
                               step: 1,
                               onChanged: (value) {
                                 setState(() {
-                                  basket.products. = value;
+                                  basket.products[product.id] = ProductInBasket(productId: product.id, quantity: value);
                                 });
                               },
                               decimalPlaces: 0,

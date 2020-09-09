@@ -5,21 +5,18 @@ class ProductInBasket {
   int productId;
   int quantity;
 
-  ProductInBasket({this.productId, this.quantity})
+  ProductInBasket({this.productId, this.quantity});
 }
 
 class Transaction {
   int userId;
-  List<ProductInBasket> products;
+  Map<int, ProductInBasket> products;
 
   Transaction({this.userId, this.products});
 
   int getProductQuantity(int productId) {
-    final ProductInBasket product = products.firstWhere((element) =>
-    element.productId == productId);
-    if (ProductInBasket == null){
-      return null;
-    }
-    return product.quantity;
+    return products[productId] == null ? null : products[productId].quantity;
   }
+
+
 }
