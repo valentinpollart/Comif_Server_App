@@ -1,6 +1,7 @@
 import 'package:Comif_Server_App/cache/cached_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:Comif_Server_App/ui/colors/colors.dart';
 
 class MainDrawer extends StatelessWidget {
   @override
@@ -10,15 +11,16 @@ class MainDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Text('Drawer Header'),
+            child: Text('Drawer Header',
+            style: TextStyle(color: drawing),),
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: main,
             ),
           ),
           ListTile(
             title: Text('Se déconnecter'),
             onTap: () {
-              CachedData.logout();
+              SharedPrefs.logout();
               Navigator.of(context)
                   .pushNamedAndRemoveUntil('/', (route) => false);
               // Navigator.pop(context);

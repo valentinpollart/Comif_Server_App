@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 Future<List<User>> parseUsers() async {
   final response = await http.get(
       'https://comif.fr/api/users/',
-      headers: {HttpHeaders.authorizationHeader: "Bearer " + CachedData.token}
+      headers: {HttpHeaders.authorizationHeader: "Bearer " + SharedPrefs.token}
   );
   if (response.statusCode == 200) {
     final parsed = jsonDecode(response.body).cast<Map<String, dynamic>>();
@@ -29,7 +29,7 @@ Future<List<User>> searchUser(String search) async {
 Future<User> infoUser() async {
   final response = await http.get(
     'https://comif.fr/api/users/info',
-    headers: {HttpHeaders.authorizationHeader: "Bearer " + CachedData.token}
+    headers: {HttpHeaders.authorizationHeader: "Bearer " + SharedPrefs.token}
   );
   if (response.statusCode == 200) {
     final parsed = jsonDecode(response.body).cast<String, dynamic>();

@@ -24,8 +24,9 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    CachedData.loadAuthToken().then((_) {
-      String routeName = (CachedData.isLogged()) ? '/main' : '/';
+    SharedPrefs.loadAuthToken().then((_) {
+      CachedData.initCache();
+      String routeName = (SharedPrefs.isLogged()) ? '/main' : '/';
       if (ModalRoute.of(context).settings.name != "/") {
         Navigator.of(context).pushNamedAndRemoveUntil(routeName, (_) => false);
       }

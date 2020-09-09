@@ -1,8 +1,13 @@
-import 'package:Comif_Server_App/models/product.dart';
+import 'dart:io';
+
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CachedData {
+class SharedPrefs {
   static String token = '';
+
+  final storage = new FlutterSecureStorage();
 
   static Future<void> loadAuthToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -17,5 +22,21 @@ class CachedData {
 
   static bool isLogged() {
     return token != '';
+  }
+}
+
+class CachedData {
+  static var cacheDir;
+
+  static void initCache() async {
+    cacheDir = await getTemporaryDirectory();
+  }
+
+  static Future<bool> isCached(String fileName) async {
+    return await File(cacheDir.path + "/" + fileName).exists();
+  }
+
+  static dynamic fetch(String fileName) async {
+    return File(cacheDir.path + "/" + fileName).readAsStringSync();
   }
 }

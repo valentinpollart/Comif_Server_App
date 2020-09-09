@@ -9,7 +9,7 @@ class RouteGenerator {
     final Map<String, dynamic> args = settings.arguments;
     switch (settings.name) {
       case '/':
-        if (CachedData.isLogged()) {
+        if (SharedPrefs.isLogged()) {
           return generateRoute(RouteSettings(name: '/invoice'));
         }
         return MaterialPageRoute(builder: (_) => LoginScreen());

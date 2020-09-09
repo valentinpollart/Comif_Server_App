@@ -22,6 +22,7 @@ class Counter extends StatelessWidget {
     this.textStyle,
     this.step = 1,
     this.buttonSize = 25,
+    this.iconColor,
   })  : assert(initialValue != null),
         assert(minValue != null),
         assert(maxValue != null),
@@ -57,6 +58,8 @@ class Counter extends StatelessWidget {
 
   final double buttonSize;
 
+  Color iconColor;
+
   void _incrementCounter() {
     if (selectedValue + step <= maxValue) {
       onChanged((selectedValue + step));
@@ -91,7 +94,7 @@ class Counter extends StatelessWidget {
               onPressed: _decrementCounter,
               elevation: 2,
               tooltip: 'Decrement',
-              child: Icon(Icons.remove),
+              child: Icon(Icons.remove, color: iconColor),
               backgroundColor: color,
             ),
           ),
@@ -110,7 +113,7 @@ class Counter extends StatelessWidget {
               onPressed: _incrementCounter,
               elevation: 2,
               tooltip: 'Increment',
-              child: Icon(Icons.add),
+              child: Icon(Icons.add, color: iconColor),
               backgroundColor: color,
             ),
           ),
