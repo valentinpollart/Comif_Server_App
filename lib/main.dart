@@ -1,8 +1,7 @@
 import 'package:Comif_Server_App/cache/cached_data.dart';
 import 'package:Comif_Server_App/route_generator.dart';
-import 'package:Comif_Server_App/screens/invoice_builder.dart';
+import 'package:Comif_Server_App/screens/login.dart';
 import 'package:flutter/material.dart';
-import 'screens/login.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,9 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Startup Name Generator',
+      title: 'Comif Server App',
       home: HomePage(),
-      initialRoute: '/',
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
@@ -26,9 +24,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     SharedPrefs.loadAuthToken().then((_) {
       CachedData.initCache();
-      String routeName = (SharedPrefs.isLogged()) ? '/main' : '/';
-      if (ModalRoute.of(context).settings.name != "/") {
-        Navigator.of(context).pushNamedAndRemoveUntil(routeName, (_) => false);
+      if (SharedPrefs.isLogged()) {
+        Navigator.of(context).pushNamedAndRemoveUntil("/main", (_) => false);
       }
     });
     return LoginScreen();

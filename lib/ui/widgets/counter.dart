@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 
 typedef void CounterChangeCallback(num value);
 
+// ignore: must_be_immutable
 class Counter extends StatelessWidget {
 
   final CounterChangeCallback onChanged;
@@ -58,7 +59,7 @@ class Counter extends StatelessWidget {
 
   final double buttonSize;
 
-  Color iconColor;
+  final Color iconColor;
 
   void _incrementCounter() {
     if (selectedValue + step <= maxValue) {

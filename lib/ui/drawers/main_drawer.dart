@@ -34,6 +34,14 @@ class MainDrawer extends StatelessWidget {
               // Navigator.pop(context);
             },
           ),
+          ListTile(
+            title: Text('Recharger un compte'),
+            onTap: () {
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil('/credit', (route) => false);
+              // Navigator.pop(context);
+            },
+          ),
         ],
       ),
     );

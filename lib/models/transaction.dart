@@ -10,7 +10,13 @@ class ProductInBasket {
 
   int quantity;
 
-  ProductInBasket({this.productId, this.quantity});
+  @JsonKey(ignore: true)
+  String productName;
+
+  @JsonKey(ignore: true)
+  int price;
+
+  ProductInBasket({this.productId, this.quantity, this.productName, this.price});
 
   factory ProductInBasket.fromJson(Map<String, dynamic> json) => _$ProductInBasketFromJson(json);
 
@@ -43,11 +49,20 @@ class Transaction {
     products = new List<ProductInBasket>();
   }
 
-  void setProduct(int productId, ProductInBasket productInBasket) {
+  void setProduct(int productId, ProductInBasket productInBasket, int productPrice) {
      final index = products.indexWhere((element) => element.productId == productId);
      if ( index == -1) {
        products.add(productInBasket);
+       total += productPrice;
+     } else if (productInBasket.quantity == 0) {
+       products.remove(productInBasket);
+       total -= productPrice;
      } else {
+       if(products[index].quantity < productInBasket.quantity) {
+         total += productPrice;
+       } else {
+         total -= productPrice;
+       }
        products[index] = productInBasket;
      }
   }

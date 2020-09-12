@@ -1,7 +1,5 @@
-import 'package:Comif_Server_App/database/product_queries.dart';
 import 'package:Comif_Server_App/database/transaction_queries.dart';
 import 'package:Comif_Server_App/models/transaction.dart';
-import 'package:Comif_Server_App/models/product.dart';
 import 'package:Comif_Server_App/screens/invoice_builder.dart';
 import 'package:Comif_Server_App/ui/drawers/main_drawer.dart';
 import 'package:Comif_Server_App/ui/texts/prices.dart';
@@ -17,7 +15,6 @@ class InvoiceConfirmationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int total = 0;
     return Scaffold(
       backgroundColor: background,
       appBar: AppBar(
@@ -40,6 +37,9 @@ class InvoiceConfirmationScreen extends StatelessWidget {
         child: Column(
           children: [
             Container(
+              height: 10,
+            ),
+            Container(
               height: 50,
               child: Row(
                 children: [
@@ -57,42 +57,50 @@ class InvoiceConfirmationScreen extends StatelessWidget {
             ),
             Expanded(
               child: ListView.separated(
+
                 padding: const EdgeInsets.all(8),
                 itemCount: basket.products.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return FutureBuilder<Product>(
-                      future: getProduct(basket.products[index].productId),
-                      builder: (context, snapshot) {
-                        debugPrint(snapshot.data.toString());
-                        return Container(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: Center(
-                                child: Text(snapshot.data.name),
-                              )),
-                              Expanded(
-                                  child: Center(
-                                child: Text(basket
-                                    .getProduct(snapshot.data.id).quantity
-                                    .toString()),
-                              )),
-                              Expanded(
-                                  child: Center(
-                                child: Text(displayPrice(
-                                    basket.getProduct(snapshot.data.id).quantity *
-                                        snapshot.data.salePrice)),
-                              )),
-                            ],
-                          ),
-                        );
-                      });
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: index % 2 == 0 ? font1 : font2,
+                      border: Border.all(
+                        width: 3,
+                        color: font4,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    height: 50,
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: Center(
+                              child: Text(basket.products[index].productName,style: TextStyle(color: drawing),),
+                            )),
+                        Expanded(
+                            child: Center(
+                              child: Text(basket
+                                  .products[index].quantity
+                                  .toString(),style: TextStyle(color: drawing),),
+                            )),
+                        Expanded(
+                            child: Center(
+                              child: Text(displayPrice(
+                                  basket.products[index].quantity *
+                                      basket.products[index].price),style: TextStyle(color: drawing),),
+                            )),
+                      ],
+                    ),
+                  );
                 },
                 separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(),
+                    Container(
+                      height: 10,
+                    ),
               ),
             ),
             Container(
+              height: 50,
               child: Row(
                 children: [
                   Expanded(

@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final String token = json.decode(response.body)['access_token'];
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("authToken", token);
-      SharedPrefs.loadAuthToken();
+      await SharedPrefs.loadAuthToken();
       User user = await infoUser();
       if (user.status != "admin" && user.status != "seller") {
         Scaffold.of(context).showSnackBar(
