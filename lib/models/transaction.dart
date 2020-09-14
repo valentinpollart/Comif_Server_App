@@ -55,7 +55,7 @@ class Transaction {
        products.add(productInBasket);
        total += productPrice;
      } else if (productInBasket.quantity == 0) {
-       products.remove(productInBasket);
+       products.removeWhere((element) => element.productId == productInBasket.productId);
        total -= productPrice;
      } else {
        if(products[index].quantity < productInBasket.quantity) {
