@@ -18,6 +18,7 @@ In order to provide a better experience for users and developers, it is needed t
         - 2 : What you expected to happen
         - 3 : What happened in reality
         - Please provide screenshot if possible and be as precise in your description as you can
+    
     - If it is a feature request :
         A detailed description of what you would like to have. Please try to separate every elementary functionnality and give details as much as possible about what you expect the functionnality to do and how it should look.
        
