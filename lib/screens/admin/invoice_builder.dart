@@ -5,6 +5,8 @@ import 'package:Comif_Server_App/models/transaction.dart';
 import 'package:Comif_Server_App/models/product.dart';
 import 'package:Comif_Server_App/screens/admin/invoice_confirmation.dart';
 import 'package:Comif_Server_App/ui/drawers/main_drawer.dart';
+import 'package:Comif_Server_App/ui/texts/app_bar_text.dart';
+import 'package:Comif_Server_App/ui/texts/main_text.dart';
 import 'package:Comif_Server_App/ui/texts/prices.dart';
 import 'package:Comif_Server_App/ui/widgets/client_list.dart';
 import 'package:Comif_Server_App/ui/widgets/counter.dart';
@@ -31,15 +33,21 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_clientSelected || basket != null) {
+    if((basket?.products?.isNotEmpty ?? false) && !_clientSelected){
+      _clientSelected = !_clientSelected;
+    }
+    if (_clientSelected) {
       return Scaffold(
           appBar: AppBar(
-            title: Text('Qu\'est-ce-qu\'on sert ?'),
-            backgroundColor: main,
+            title: AppBarText('Qu\'est-ce qu\'on sert ?'),
+            backgroundColor: mainColor,
             actions: <Widget>[
-              InkWell(
-                onTap: () {
+              FlatButton(
+                minWidth: 50,
+                color: mainColor2,
+                onPressed: () {
                   basket.userId = null;
+                  basket.products = new List<ProductInBasket>();
                   setState(() {
                     _clientSelected = !_clientSelected;
                   });
@@ -55,8 +63,8 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
           new Transaction(userId: null, products: new List<ProductInBasket>());
       return Scaffold(
         appBar: AppBar(
-          title: Text('Qui est servi ?'),
-          backgroundColor: main,
+          title: AppBarText('Qui est servi ?'),
+          backgroundColor: mainColor,
         ),
         body: ClientList(
             clientSelected: (id) => {
@@ -73,7 +81,7 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
   Widget buildProductList(BuildContext context) {
     basket = ModalRoute.of(context).settings.arguments ?? basket;
     return Scaffold(
-      backgroundColor: background,
+      backgroundColor: background2,
       body: SafeArea(
           child: Column(
         children: [
@@ -99,43 +107,55 @@ class _InvoiceBuilderScreenState extends State<InvoiceBuilderScreen> {
                         Expanded(
                             flex: 8,
                             child: ListTile(
-                              title: Text(
-                                product.name,
-                                style: TextStyle(color: drawing),
+                              title: MainText(
+                                text: product.name,
+                                size: 25,
+                                color: index % 2 == 0 ? drawing : mainColor,
+                                weight: FontWeight.w900,
+
                               ),
                               isThreeLine: false,
-                              subtitle: Text(
-                                displayPrice(product.salePrice),
-                                style: TextStyle(color: drawing),
-                              ),
                             )),
                         Expanded(
                             flex: 3,
-                            child: Counter(
-                              color: background,
-                              iconColor: font4,
-                              tag: "product$index",
-                              textStyle:
-                                  TextStyle(color: drawing, fontSize: 18),
-                              initialValue:
+                            child: Column(
+                              children: [
+                                Counter(
+                                  color: background,
+                                  iconColor: font4,
+                                  tag: "product$index",
+                                  textStyle:
+                                  TextStyle(color: index % 2 == 0 ? drawing : mainColor, fontSize: 18),
+                                  initialValue:
                                   basket.getProductQuantity(product.id) ?? 0,
-                              minValue: 0,
-                              step: 1,
-                              onChanged: (value) {
-                                setState(() {
-                                  basket.setProduct(
-                                      product.id,
-                                      ProductInBasket(
-                                          productId: product.id,
-                                          quantity: value,
-                                          productName: product.name,
-                                          price: product.salePrice),
-                                      product.salePrice);
-                                });
-                              },
-                              decimalPlaces: 0,
-                              maxValue: 999,
-                            ))
+                                  minValue: 0,
+                                  step: 1,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      basket.setProduct(
+                                          product.id,
+                                          ProductInBasket(
+                                              productId: product.id,
+                                              quantity: value,
+                                              productName: product.name,
+                                              price: product.salePrice),
+                                          product.salePrice);
+                                    });
+                                  },
+                                  decimalPlaces: 0,
+                                  maxValue: 999,
+                                ),
+                                Container(
+                                  child: MainText(
+                                    text: displayPrice(product.salePrice),
+                                    size: 18,
+                                    color: index % 2 == 0 ? drawing : mainColor,
+                                    weight: FontWeight.w900,
+                                  ),
+                                )
+                              ],
+                            )
+                        )
                       ],
                     ));
               },

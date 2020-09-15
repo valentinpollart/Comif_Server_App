@@ -24,7 +24,7 @@ Future<List<Product>> parseProducts() async {
 
 Future<List<Product>> searchProduct(String search) async {
   final products = await parseProducts();
-  products.removeWhere((product) => !product.slug.contains(search));
+  products.removeWhere((product) => !product.slug.contains(search.toLowerCase()));
   products.sort((Product product1, Product product2) =>
       product1.slug.compareTo(product2.slug));
   return products;

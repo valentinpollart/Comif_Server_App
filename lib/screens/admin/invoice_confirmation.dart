@@ -2,7 +2,11 @@ import 'package:Comif_Server_App/database/transaction_queries.dart';
 import 'package:Comif_Server_App/models/transaction.dart';
 import 'package:Comif_Server_App/screens/admin/invoice_builder.dart';
 import 'package:Comif_Server_App/ui/drawers/main_drawer.dart';
+import 'package:Comif_Server_App/ui/texts/app_bar_text.dart';
+import 'package:Comif_Server_App/ui/texts/button_text.dart';
+import 'package:Comif_Server_App/ui/texts/main_text.dart';
 import 'package:Comif_Server_App/ui/texts/prices.dart';
+import 'package:Comif_Server_App/ui/widgets/counter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Comif_Server_App/ui/colors/colors.dart';
@@ -16,21 +20,23 @@ class InvoiceConfirmationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: background,
+      backgroundColor: background2,
       appBar: AppBar(
-        title: Text('Récapitulatif'),
-        backgroundColor: main,
+        title: AppBarText('Récapitulatif'),
+        backgroundColor: mainColor,
         actions: <Widget>[
-          GestureDetector(
-            onTap: () {
+          FlatButton(
+            minWidth: 50,
+            color: mainColor2,
+            onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
                           InvoiceBuilderScreen(transaction: basket)));
             },
-            child: Icon(Icons.arrow_back_ios_outlined),
-          )
+            child: Icon(Icons.arrow_back_ios_outlined, color: background,),
+            ),
         ],
       ),
       body: SafeArea(
@@ -41,23 +47,48 @@ class InvoiceConfirmationScreen extends StatelessWidget {
             ),
             Container(
               height: 50,
+              padding: EdgeInsets.symmetric(horizontal: 12),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Expanded(child: Center(child: Text('Produit'))),
                   Expanded(
-                      child: Center(
-                    child: Text('Quantité'),
-                  )),
+                          child: Text(
+                            'Produit',
+                            style: TextStyle(
+                              fontFamily: 'Pompiere',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 35
+
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                    flex: 60,
+                  ),
                   Expanded(
-                      child: Center(
-                    child: Text('Total'),
-                  ))
+                    child: Text('Qté',style: TextStyle(
+                        fontFamily: 'Pompiere',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 35
+                    ),
+                      textAlign: TextAlign.center,
+                    ),
+                    flex: 15,
+                  ),
+                  Expanded(
+                    child: Text('Total',style: TextStyle(
+                        fontFamily: 'Pompiere',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 35
+                    ),
+                      textAlign: TextAlign.center,
+                    ),
+                    flex: 25,
+                  )
                 ],
               ),
             ),
             Expanded(
               child: ListView.separated(
-
                 padding: const EdgeInsets.all(8),
                 itemCount: basket.products.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -70,25 +101,26 @@ class InvoiceConfirmationScreen extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    height: 50,
+                    padding: EdgeInsets.symmetric(vertical: 8),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Expanded(
-                            child: Center(
-                              child: Text(basket.products[index].productName,style: TextStyle(color: drawing),),
-                            )),
+                              child: MainText(text: basket.products[index].productName,size: 30,alignment: TextAlign.center,color: index % 2 == 0 ? drawing : mainColor,weight: FontWeight.w600,),
+                          flex: 60,
+                            ),
                         Expanded(
-                            child: Center(
-                              child: Text(basket
+                              child: MainText(text: basket
                                   .products[index].quantity
-                                  .toString(),style: TextStyle(color: drawing),),
-                            )),
+                                  .toString(),size: 30,alignment: TextAlign.center,color: index % 2 == 0 ? drawing : mainColor,weight: FontWeight.w600,),
+                          flex: 15,
+                            ),
                         Expanded(
-                            child: Center(
-                              child: Text(displayPrice(
+                              child: MainText(text: displayPrice(
                                   basket.products[index].quantity *
-                                      basket.products[index].price),style: TextStyle(color: drawing),),
-                            )),
+                                      basket.products[index].price),size: 30,alignment: TextAlign.center,color: index % 2 == 0 ? drawing : mainColor,weight: FontWeight.w600,),
+                          flex: 25,
+                            ),
                       ],
                     ),
                   );
@@ -105,7 +137,11 @@ class InvoiceConfirmationScreen extends StatelessWidget {
                 children: [
                   Expanded(
                       child: Center(
-                    child: Text("Total"),
+                    child: Text("Total",style: TextStyle(
+                        fontFamily: 'Pompiere',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 45
+                    ),),
                   )),
                   Expanded(
                       child: Center(
@@ -113,7 +149,11 @@ class InvoiceConfirmationScreen extends StatelessWidget {
                   )),
                   Expanded(
                       child: Center(
-                    child: Text(displayPrice(basket.total)),
+                    child: Text(displayPrice(basket.total),style: TextStyle(
+                        fontFamily: 'Pompiere',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 45
+                    ),),
                   )),
                 ],
               ),
@@ -125,7 +165,7 @@ class InvoiceConfirmationScreen extends StatelessWidget {
                       child: Center(
                     child: RaisedButton(
                       onPressed: () => _validate(context),
-                      child: Text("Valider le panier"),
+                      child: ButtonText(text: "Valider le panier"),
                     ),
                   ))
                 ],

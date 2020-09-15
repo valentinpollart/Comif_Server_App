@@ -21,7 +21,7 @@ Future<List<User>> parseUsers() async {
 
 Future<List<User>> searchUser(String search) async {
   final users = await parseUsers();
-  users.removeWhere((user) => !user.lastName.toLowerCase().contains(search) && !user.firstName.toLowerCase().contains(search));
+  users.removeWhere((user) => !user.lastName.toLowerCase().contains(search.toLowerCase()) && !user.firstName.toLowerCase().contains(search.toLowerCase()));
   users.sort((User user1, User user2) => user1.lastName.compareTo(user2.lastName));
   return users;
 }

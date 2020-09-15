@@ -1,59 +1,84 @@
 import 'package:Comif_Server_App/ui/drawers/main_drawer.dart';
+import 'package:Comif_Server_App/ui/texts/app_bar_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Comif_Server_App/ui/colors/colors.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/rendering.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: background2,
       appBar: AppBar(
-        backgroundColor: main,
-        title: Text('Accueil'),
+        backgroundColor: mainColor,
+        title: AppBarText('Accueil')
       ),
       body: SafeArea(
           child: GridView.count(
-            crossAxisCount: 2,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: font1,
-                  border: Border.all(
-                    width: 3,
-                    color: font4,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                child: ListTile(
-                  title: Text("Passer une commande"),
-                  onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil("/invoice", (_) => false);
-                  },
-                ),
+        padding: EdgeInsets.all(30),
+        crossAxisCount: 2,
+        mainAxisSpacing: 30,
+        crossAxisSpacing: 30,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: font1,
+              border: Border.all(
+                width: 3,
+                color: font4,
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: font1,
-                  border: Border.all(
-                    width: 3,
-                    color: font4,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Center(
+              child: ListTile(
+                title: Text(
+                  "Passer une commande",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: drawing,
+                    fontSize: 25,
+                    fontFamily: 'Pompiere',
+                    fontWeight: FontWeight.w900
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
-                child: ListTile(
-                  title: Text("Recharger un compte"),
-                  onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil("/credit", (_) => false);
-                  },
-                ),
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil("/invoice", (_) => false);
+                },
               ),
-
-            ],
-          )
-      ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: font1,
+              border: Border.all(
+                width: 3,
+                color: font4,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Center(
+              child: ListTile(
+                title: Text(
+                  "Recharger un compte",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: drawing,
+                      fontSize: 25,
+                      fontFamily: 'Pompiere',
+                      fontWeight: FontWeight.w900
+                  ),
+                ),
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil("/credit", (_) => false);
+                },
+              ),
+            ),
+          ),
+        ],
+      )),
       drawer: MainDrawer(),
     );
   }

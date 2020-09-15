@@ -1,5 +1,6 @@
 import 'package:Comif_Server_App/database/transaction_queries.dart';
 import 'package:Comif_Server_App/ui/drawers/main_drawer.dart';
+import 'package:Comif_Server_App/ui/texts/app_bar_text.dart';
 import 'package:Comif_Server_App/ui/widgets/client_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -22,9 +23,10 @@ class _CreditScreenState extends State<CreditScreen>{
   Widget build(BuildContext context) {
     if (_clientId == null) {
       return Scaffold(
+        backgroundColor: background2,
           appBar: AppBar(
-            title: Text('Quel compte on recharge ?'),
-            backgroundColor: main,
+            title: AppBarText('Quel compte on recharge ?'),
+            backgroundColor: mainColor,
           ),
           body: ClientList(
               clientSelected: (id) => {
@@ -36,9 +38,10 @@ class _CreditScreenState extends State<CreditScreen>{
           drawer: MainDrawer());
     } else {
       return Scaffold(
+          backgroundColor: background2,
           appBar: AppBar(
             title: Text('De combien on recharge ?'),
-            backgroundColor: main,
+            backgroundColor: mainColor,
             actions: <Widget>[
               InkWell(
                 onTap: () {
@@ -66,7 +69,7 @@ class _CreditScreenState extends State<CreditScreen>{
                         decoration: BoxDecoration(
                             border: Border.all(
                               width: 3,
-                              color: main,
+                              color: mainColor,
                             ),
                             borderRadius: BorderRadius.all(Radius.circular(10))
                         ),

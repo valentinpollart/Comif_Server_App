@@ -7,9 +7,10 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: background2,
       appBar: AppBar(
         title: Text('A propos'),
-        backgroundColor: main,
+        backgroundColor: mainColor,
       ),
       body: SafeArea(
         child: ListView(

@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: main,
+          backgroundColor: mainColor,
           title: Text('Bienvenue sur l\'appli des serveurs de la Comif !'),
         ),
         body: Container(
@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: BoxDecoration(
                             border: Border.all(
                               width: 3,
-                              color: main,
+                              color: mainColor,
                             ),
                             borderRadius: BorderRadius.all(Radius.circular(10))
                         ),
@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: BoxDecoration(
                             border: Border.all(
                               width: 3,
-                              color: main,
+                              color: mainColor,
                             ),
                             borderRadius: BorderRadius.all(Radius.circular(10))
                         ),
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
             SnackBar(content: Text('Vous n\'êtes pas serveur à la Comif !')));
       } else {
         Navigator.of(context).pushNamedAndRemoveUntil(
-            '/invoice',
+            '/main',
                 (route) => false
         );
       }
