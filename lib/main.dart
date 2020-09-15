@@ -1,6 +1,6 @@
 import 'package:Comif_Server_App/cache/cached_data.dart';
 import 'package:Comif_Server_App/route_generator.dart';
-import 'package:Comif_Server_App/screens/login.dart';
+import 'package:Comif_Server_App/screens/shared/login.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());

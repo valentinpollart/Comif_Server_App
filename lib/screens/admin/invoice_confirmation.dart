@@ -1,6 +1,6 @@
 import 'package:Comif_Server_App/database/transaction_queries.dart';
 import 'package:Comif_Server_App/models/transaction.dart';
-import 'package:Comif_Server_App/screens/invoice_builder.dart';
+import 'package:Comif_Server_App/screens/admin/invoice_builder.dart';
 import 'package:Comif_Server_App/ui/drawers/main_drawer.dart';
 import 'package:Comif_Server_App/ui/texts/prices.dart';
 import 'package:flutter/cupertino.dart';
