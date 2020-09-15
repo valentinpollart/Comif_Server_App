@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:Comif_Server_App/database/product_queries.dart';
 import 'package:Comif_Server_App/models/transaction.dart';
 import 'package:Comif_Server_App/models/product.dart';
-import 'package:Comif_Server_App/screens/invoice_confirmation.dart';
+import 'package:Comif_Server_App/screens/admin/invoice_confirmation.dart';
 import 'package:Comif_Server_App/ui/drawers/main_drawer.dart';
 import 'package:Comif_Server_App/ui/texts/prices.dart';
 import 'package:Comif_Server_App/ui/widgets/client_list.dart';
