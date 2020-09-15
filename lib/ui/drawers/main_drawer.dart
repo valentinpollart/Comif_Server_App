@@ -42,6 +42,14 @@ class MainDrawer extends StatelessWidget {
               // Navigator.pop(context);
             },
           ),
+          ListTile(
+            title: Text('A propos'),
+            onTap: () {
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil('/info', (route) => false);
+              // Navigator.pop(context);
+            },
+          ),
         ],
       ),
     );

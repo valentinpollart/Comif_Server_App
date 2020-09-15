@@ -1,4 +1,5 @@
 import 'package:Comif_Server_App/cache/cached_data.dart';
+import 'package:Comif_Server_App/screens/about.dart';
 import 'package:Comif_Server_App/screens/credit.dart';
 import 'package:Comif_Server_App/screens/invoice_builder.dart';
 import 'package:Comif_Server_App/screens/invoice_confirmation.dart';
@@ -21,6 +22,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => InvoiceConfirmationScreen());
       case '/credit':
         return MaterialPageRoute(builder: (_) => CreditScreen());
+      case '/info':
+        return MaterialPageRoute(builder: (_) => AboutScreen());
       default:
         return generateRoute(RouteSettings(name: '/invoice'));
     }
