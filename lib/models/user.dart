@@ -8,8 +8,11 @@ class User {
   final String token;
   final int balance;
   final int promotionId;
+  int expensesDay;
+  int expensesWeek;
+  int expensesMonth;
 
-  User({this.id, this.status, this.firstName, this.lastName, this.email, this.token, this.balance, this.promotionId});
+  User({this.id, this.status, this.firstName, this.lastName, this.email, this.token, this.balance, this.promotionId, this.expensesDay, this.expensesWeek, this.expensesMonth});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(

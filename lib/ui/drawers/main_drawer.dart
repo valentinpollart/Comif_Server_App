@@ -1,4 +1,5 @@
 import 'package:Comif_Server_App/cache/cached_data.dart';
+import 'package:Comif_Server_App/ui/drawers/admin_drawer.dart';
 import 'package:Comif_Server_App/ui/texts/main_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,36 +27,28 @@ class MainDrawer extends StatelessWidget {
                 ListTile(
                   title: MainText(text:'Accueil',color: drawing,size: 30,),
                   onTap: () {
-                    SharedPrefs.logout();
                     Navigator.of(context)
                         .pushNamedAndRemoveUntil('/main', (route) => false);
                     // Navigator.pop(context);
                   },
                 ),
                 ListTile(
-                  title: MainText(text: 'Prendre une commande',color: drawing,size: 30,),
+                  title: MainText(text:'Mon compte',color: drawing,size: 30,),
                   onTap: () {
                     Navigator.of(context)
-                        .pushNamedAndRemoveUntil('/invoice', (route) => false);
+                        .pushNamedAndRemoveUntil('/account', (route) => false);
                     // Navigator.pop(context);
                   },
                 ),
                 ListTile(
-                  title: MainText(text:'Recharger un compte',color: drawing,size: 30,),
+                  title: MainText(text:'Mes transactions',color: drawing,size: 30,),
                   onTap: () {
                     Navigator.of(context)
-                        .pushNamedAndRemoveUntil('/credit', (route) => false);
+                        .pushNamedAndRemoveUntil('/transactions', (route) => false);
                     // Navigator.pop(context);
                   },
                 ),
-                ListTile(
-                  title: MainText(text:'A propos',color: drawing,size: 30,),
-                  onTap: () {
-                    Navigator.of(context)
-                        .pushNamedAndRemoveUntil('/info', (route) => false);
-                    // Navigator.pop(context);
-                  },
-                ),
+                SharedPrefs.isAdmin ? AdminDrawer() : Container(),
                 ListTile(
                   title: MainText(text:'Se déconnecter',color: drawing,size: 30,),
                   onTap: () {

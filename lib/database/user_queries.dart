@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:Comif_Server_App/cache/cached_data.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../models/user.dart';
 import 'package:http/http.dart' as http;
@@ -33,8 +34,13 @@ Future<User> infoUser() async {
   );
   if (response.statusCode == 200) {
     final parsed = jsonDecode(response.body).cast<String, dynamic>();
-    return User.fromJson(parsed['user']);
+    User user = User.fromJson(parsed['user']);
+    user.expensesDay = parsed['expenses_day'];
+    user.expensesWeek = parsed['expenses_week'];
+    user.expensesMonth = parsed['expenses_month'];
+    return user;
   } else {
+    debugPrint(response.body);
     throw Exception('Failed to get user info');
   }
 }

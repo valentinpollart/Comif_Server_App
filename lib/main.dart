@@ -28,7 +28,11 @@ class HomePage extends StatelessWidget {
     SharedPrefs.loadAuthToken().then((_) {
       CachedData.initCache();
       if (SharedPrefs.isLogged()) {
-        Navigator.of(context).pushNamedAndRemoveUntil("/main", (_) => false);
+        if (SharedPrefs.isAdmin) {
+          Navigator.of(context).pushNamedAndRemoveUntil("/main", (_) => false);
+        } else {
+          Navigator.of(context).pushNamedAndRemoveUntil("/account", (_) => false);
+        }
       }
     });
     return LoginScreen();

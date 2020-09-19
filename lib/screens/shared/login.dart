@@ -119,14 +119,19 @@ class _LoginScreenState extends State<LoginScreen> {
       if (response.statusCode != 200) {
         throw Exception('Combinaison invalide !');
       }
-      final String token = json.decode(response.body)['access_token'];
       SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String token = json.decode(response.body)['access_token'];
       prefs.setString("authToken", token);
       await SharedPrefs.loadAuthToken();
       User user = await infoUser();
-      if (user.status != "admin" && user.status != "seller") {
-        Scaffold.of(context).showSnackBar(
-            SnackBar(content: Text('Vous n\'êtes pas serveur à la Comif !')));
+      prefs.setInt("userId", user.id);
+      prefs.setBool("isAdmin", user.status == "admin" || user.status == "seller");
+      await SharedPrefs.loadUser();
+      if (SharedPrefs.isAdmin) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            '/account',
+                (route) => false
+        );
       } else {
         Navigator.of(context).pushNamedAndRemoveUntil(
             '/main',

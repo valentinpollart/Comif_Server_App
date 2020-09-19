@@ -8,9 +8,13 @@ class ProductInBasket {
   @JsonKey(name: "id")
   int productId;
 
+  @JsonKey()
   int quantity;
 
-  @JsonKey(ignore: true)
+  @JsonKey(name: "pivot", fromJson: getQuantityFromPivot)
+  int pivot;
+
+  @JsonKey(name: "name")
   String productName;
 
   @JsonKey(ignore: true)
@@ -21,6 +25,10 @@ class ProductInBasket {
   factory ProductInBasket.fromJson(Map<String, dynamic> json) => _$ProductInBasketFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductInBasketToJson(this);
+
+  static int getQuantityFromPivot(Map<String, dynamic> json) {
+    return json['quantity'] as int;
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -29,9 +37,14 @@ class Transaction {
 
   @JsonKey(name: "user_id")
   int userId;
+
   List<ProductInBasket> products;
-  @JsonKey(ignore: true)
+
+  @JsonKey(name: "value")
   int total = 0;
+
+  @JsonKey(name: "created_at")
+  DateTime createdAt;
 
   Transaction({this.userId, this.products});
 

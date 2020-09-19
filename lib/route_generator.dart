@@ -1,11 +1,13 @@
 import 'package:Comif_Server_App/cache/cached_data.dart';
 
 import 'package:Comif_Server_App/screens/admin/credit.dart';
-import 'package:Comif_Server_App/screens/admin/home.dart';
+import 'package:Comif_Server_App/screens/shared/home.dart';
 import 'package:Comif_Server_App/screens/admin/invoice_builder.dart';
 import 'package:Comif_Server_App/screens/admin/invoice_confirmation.dart';
 import 'package:Comif_Server_App/screens/shared/about.dart';
+import 'package:Comif_Server_App/screens/shared/account.dart';
 import 'package:Comif_Server_App/screens/shared/login.dart';
+import 'package:Comif_Server_App/screens/shared/transactions.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
@@ -26,8 +28,12 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => CreditScreen());
       case '/info':
         return MaterialPageRoute(builder: (_) => AboutScreen());
+      case '/account':
+        return MaterialPageRoute(builder: (_) => AccountScreen());
+      case '/transactions':
+        return MaterialPageRoute(builder: (_) => TransactionsScreen());
       default:
-        return generateRoute(RouteSettings(name: '/invoice'));
+        return generateRoute(RouteSettings(name: '/'));
     }
   }
 }
