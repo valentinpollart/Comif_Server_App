@@ -28,6 +28,7 @@ class HomePage extends StatelessWidget {
     SharedPrefs.loadAuthToken().then((_) {
       CachedData.initCache();
       if (SharedPrefs.isLogged()) {
+        SharedPrefs.loadUser();
         if (SharedPrefs.isAdmin) {
           Navigator.of(context).pushNamedAndRemoveUntil("/main", (_) => false);
         } else {
