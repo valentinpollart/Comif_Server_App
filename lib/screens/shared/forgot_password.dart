@@ -4,20 +4,21 @@ import 'package:Comif_Server_App/cache/cached_data.dart';
 import 'package:Comif_Server_App/database/user_queries.dart';
 import 'package:Comif_Server_App/models/user.dart';
 import 'package:Comif_Server_App/ui/colors/colors.dart';
+import 'package:Comif_Server_App/ui/texts/main_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../database/auth_queries.dart';
+import 'login.dart';
 
-class LoginScreen extends StatefulWidget {
+class ForgotPasswordScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -25,7 +26,21 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainColor,
-        title: Text('Bienvenue sur l\'appli des serveurs de la Comif !'),
+        title: Text('Mot de passe oublié'),
+        actions: <Widget>[
+          FlatButton(
+            minWidth: 50,
+            color: mainColor2,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          LoginScreen()));
+            },
+            child: Icon(Icons.arrow_back_ios_outlined, color: background,),
+          ),
+        ],
       ),
       body: Container(
         color: background,
@@ -42,6 +57,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: Image.asset('assets/icons/launcher_icon.png',
                         width: 128, height: 128),
+                  ),
+                  Container(
+                    child: MainText(text: 'Saisissez l\'adresse mail que vous avez fourni sur votre feuille de cotisation et un mail vous sera envoyé automatiquement avec un lien pour (ré)initialiser votre mot de passe.')
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
@@ -65,43 +83,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 100),
-                    child: Divider(
-                      height: 10,
-                      thickness: 3,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 3,
-                          color: mainColor,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: FormBuilderTextField(
-                      attribute: 'password',
-                      decoration: new InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 5),
-                          hintText: "Password"),
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.visiblePassword,
-                      obscureText: true,
-                      validators: [
-                        FormBuilderValidators.required(),
-                      ],
-                    ),
-                  ),
                   RaisedButton(
                     onPressed: () => _validate(context),
-                    child: Text('Se connecter'),
+                    child: Text('Confirmer'),
                   ),
-                  RaisedButton(
-                    onPressed: () => Navigator.of(context)
-                        .pushNamedAndRemoveUntil('/account', (route) => false),
-                    child: Text('Mot de passe oublié ?'),
-                  )
                 ],
               ),
             ),
@@ -117,25 +102,9 @@ class _LoginScreenState extends State<LoginScreen> {
     if (form.validate()) {
       Map<String, dynamic> value = form.value;
       final http.Response response =
-          await authUser(value['email'], value['password']);
+      await forgotPassword(value['email']);
       if (response.statusCode != 200) {
         throw Exception('Combinaison invalide !');
-      }
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String token = json.decode(response.body)['access_token'];
-      prefs.setString("authToken", token);
-      await SharedPrefs.loadAuthToken();
-      User user = await infoUser();
-      prefs.setInt("userId", user.id);
-      prefs.setBool(
-          "isAdmin", user.status == "admin" || user.status == "seller");
-      await SharedPrefs.loadUser();
-      if (SharedPrefs.isAdmin) {
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil('/account', (route) => false);
-      } else {
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil('/main', (route) => false);
       }
     }
   }
