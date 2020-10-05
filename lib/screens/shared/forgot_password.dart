@@ -47,7 +47,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         child: Center(
           child: FormBuilder(
             key: _formKey,
-            initialValue: {'email': '', 'password': ''},
+            initialValue: {'email': ''},
             autovalidate: true,
             child: Center(
               child: Column(
@@ -106,6 +106,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       if (response.statusCode != 200) {
         throw Exception('Combinaison invalide !');
       }
+      Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
     }
   }
 }
