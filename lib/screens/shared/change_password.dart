@@ -1,5 +1,6 @@
 import 'package:Comif_Server_App/screens/shared/account.dart';
 import 'package:Comif_Server_App/ui/colors/colors.dart';
+import 'package:Comif_Server_App/ui/drawers/main_drawer.dart';
 import 'package:Comif_Server_App/ui/texts/main_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -139,6 +140,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           ),
         ),
       ),
+      drawer: MainDrawer(),
     );
   }
 
