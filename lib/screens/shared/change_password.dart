@@ -1,3 +1,4 @@
+import 'package:Comif_Server_App/cache/cached_data.dart';
 import 'package:Comif_Server_App/screens/shared/account.dart';
 import 'package:Comif_Server_App/ui/colors/colors.dart';
 import 'package:Comif_Server_App/ui/drawers/main_drawer.dart';
@@ -17,7 +18,6 @@ class ChangePasswordScreen extends StatefulWidget {
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +40,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         ],
       ),
       body: Container(
-        color: background,
+        color: background2,
         child: Center(
           child: FormBuilder(
             key: _formKey,
@@ -149,9 +149,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     form.save();
     if (form.validate()) {
       Map<String, dynamic> value = form.value;
-      final http.Response response =
-      await changePassword(value['old_password'], value['new_password'], value['new_password_verified']);
+      final http.Response response = await changePassword(value['old_password'].toString(), value['new_password'].toString(), value['new_password_verified'].toString());
       if (response.statusCode != 200) {
+        debugPrint(response.body.toString());
         throw Exception('Erreur !');
       }
       Navigator.of(context).pushNamedAndRemoveUntil('/account', (route) => false);

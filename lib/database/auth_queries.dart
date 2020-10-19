@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:Comif_Server_App/cache/cached_data.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 Future<http.Response> authUser(String email, String password) {
@@ -22,7 +23,7 @@ Future<http.Response> authUser(String email, String password) {
 
 Future<http.Response> forgotPassword(String email) {
   return http.post(
-    'https://comif.fr/api/auth/forgot',
+    'https://comif.fr/api/users/forgot',
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -34,12 +35,12 @@ Future<http.Response> forgotPassword(String email) {
 
 Future<http.Response> changePassword(String oldPassword, String newPassword, String newPasswordConfirm) {
   return http.post(
-      'https://comif.fr/api/auth/reset',
+      'https://comif.fr/api/users/reset',
       headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        HttpHeaders.authorizationHeader: "Bearer " + SharedPrefs.token
+        HttpHeaders.authorizationHeader: "Bearer " + SharedPrefs.token,
+        'Content-Type': 'application/json'
       },
-      body: jsonEncode(<String, dynamic>{
+      body: jsonEncode({
         'old_password': oldPassword,
         'new_password': newPassword,
         'new_password_confirmation': newPasswordConfirm

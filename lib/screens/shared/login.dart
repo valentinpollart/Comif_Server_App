@@ -27,87 +27,91 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: mainColor,
         title: Text('Bienvenue sur l\'appli des serveurs de la Comif !'),
       ),
-      body: Container(
-        color: background,
-        child: Center(
-          child: FormBuilder(
-            key: _formKey,
-            initialValue: {'email': '', 'password': ''},
-            autovalidate: true,
+      body: Builder(
+        builder: (BuildContext context) {
+          return Container(
+            color: background,
             child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Image.asset('assets/icons/launcher_icon.png',
-                        width: 128, height: 128),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 3,
-                          color: mainColor,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: FormBuilderTextField(
-                      attribute: 'email',
-                      textAlign: TextAlign.center,
-                      decoration: new InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 5),
-                        hintText: "Email",
+              child: FormBuilder(
+                key: _formKey,
+                initialValue: {'email': '', 'password': ''},
+                autovalidate: true,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        child: Image.asset('assets/icons/launcher_icon.png',
+                            width: 128, height: 128),
                       ),
-                      keyboardType: TextInputType.emailAddress,
-                      validators: [
-                        FormBuilderValidators.email(),
-                        FormBuilderValidators.required(),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 100),
-                    child: Divider(
-                      height: 10,
-                      thickness: 3,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 3,
-                          color: mainColor,
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 3,
+                              color: mainColor,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(10))),
+                        child: FormBuilderTextField(
+                          attribute: 'email',
+                          textAlign: TextAlign.center,
+                          decoration: new InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(horizontal: 5),
+                            hintText: "Email",
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          validators: [
+                            FormBuilderValidators.email(),
+                            FormBuilderValidators.required(),
+                          ],
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: FormBuilderTextField(
-                      attribute: 'password',
-                      decoration: new InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 5),
-                          hintText: "Password"),
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.visiblePassword,
-                      obscureText: true,
-                      validators: [
-                        FormBuilderValidators.required(),
-                      ],
-                    ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 100),
+                        child: Divider(
+                          height: 10,
+                          thickness: 3,
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 3,
+                              color: mainColor,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(10))),
+                        child: FormBuilderTextField(
+                          attribute: 'password',
+                          decoration: new InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(horizontal: 5),
+                              hintText: "Password"),
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.visiblePassword,
+                          obscureText: true,
+                          validators: [
+                            FormBuilderValidators.required(),
+                          ],
+                        ),
+                      ),
+                      RaisedButton(
+                        onPressed: () => _validate(context),
+                        child: Text('Se connecter'),
+                      ),
+                      RaisedButton(
+                        onPressed: () => Navigator.of(context)
+                            .pushNamedAndRemoveUntil('/forgot_password', (route) => false),
+                        child: Text('Mot de passe oublié ?'),
+                      )
+                    ],
                   ),
-                  RaisedButton(
-                    onPressed: () => _validate(context),
-                    child: Text('Se connecter'),
-                  ),
-                  RaisedButton(
-                    onPressed: () => Navigator.of(context)
-                        .pushNamedAndRemoveUntil('/account', (route) => false),
-                    child: Text('Mot de passe oublié ?'),
-                  )
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-      ),
+          );
+        },
+      )
     );
   }
 
@@ -119,7 +123,12 @@ class _LoginScreenState extends State<LoginScreen> {
       final http.Response response =
           await authUser(value['email'], value['password']);
       if (response.statusCode != 200) {
-        throw Exception('Combinaison invalide !');
+        Scaffold.of(context).showSnackBar(
+            SnackBar(
+                content: Text("Mot de passe erroné !", textAlign: TextAlign.center,)
+            )
+        );
+        return;
       }
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final String token = json.decode(response.body)['access_token'];

@@ -52,7 +52,6 @@ class MainDrawer extends StatelessWidget {
                 ListTile(
                   title: MainText(text:'Changer mon mot de passe',color: drawing,size: 30,),
                   onTap: () {
-                    SharedPrefs.logout();
                     Navigator.of(context)
                         .pushNamedAndRemoveUntil('/change_password', (route) => false);
                     // Navigator.pop(context);

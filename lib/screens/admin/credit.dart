@@ -27,6 +27,7 @@ class _CreditScreenState extends State<CreditScreen>{
           appBar: AppBar(
             title: AppBarText('Quel compte on recharge ?'),
             backgroundColor: mainColor,
+            
           ),
           body: ClientList(
               clientSelected: (id) => {

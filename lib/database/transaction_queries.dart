@@ -15,7 +15,6 @@ Future<void> postTransaction(Transaction transaction) async {
       headers: {HttpHeaders.authorizationHeader: "Bearer " + SharedPrefs.token, HttpHeaders.contentTypeHeader: 'application/json'},
       body: body
       );
-  debugPrint(response.body);
   if (response.statusCode == 200) {
     return;
   } else {

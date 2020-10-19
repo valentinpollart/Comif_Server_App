@@ -84,7 +84,7 @@ class AccountScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 20),
+                                margin: EdgeInsets.only(left: 12, right: 6),
                                 padding: EdgeInsets.symmetric(vertical: 5),
                                 decoration: BoxDecoration(
                                   color: mainColor,
@@ -119,7 +119,7 @@ class AccountScreen extends StatelessWidget {
                           ),
                           Expanded(
                             child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 20),
+                                margin: EdgeInsets.symmetric(horizontal: 6),
                                 padding: EdgeInsets.symmetric(vertical: 5),
                                 decoration: BoxDecoration(
                                   color: mainColor,
@@ -152,7 +152,7 @@ class AccountScreen extends StatelessWidget {
                           ),
                           Expanded(
                             child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 20),
+                                margin: EdgeInsets.only(left: 6, right: 12),
                                 padding: EdgeInsets.symmetric(vertical: 5),
                                 decoration: BoxDecoration(
                                   color: mainColor,
