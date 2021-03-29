@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[30],{100:function(e){e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Welcome","permalink":"/Comif_Server_App/blog/welcome"},{"title":"Hello","permalink":"/Comif_Server_App/blog/hello-world"},{"title":"Hola","permalink":"/Comif_Server_App/blog/hola"}]}')}}]);

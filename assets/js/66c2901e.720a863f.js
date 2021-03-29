@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[12],{82:function(o){o.exports=JSON.parse('{"allTagsPath":"/Comif_Server_App/blog/tags","slug":"hello","name":"hello","count":2,"permalink":"/Comif_Server_App/blog/tags/hello"}')}}]);
