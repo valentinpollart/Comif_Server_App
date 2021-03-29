@@ -9,7 +9,7 @@ This application fetches data from a MySQL database thanks to a REST API (https:
 
 ## Report a bug / Request a feature
 
-In order to provide better experience for users and developers, it is needed to follow the procedure to report a bug and/or request a new feature :
+In order to provide a better experience for users and developers, it is needed to follow the procedure to report a bug and/or request a new feature :
 
 - Post a new issue in this repo with the following title : **[feat/bug]** # Short description of the request
 - The body of this issue should contains :
